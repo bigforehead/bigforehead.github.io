@@ -265,15 +265,14 @@
                           <hr class="star-primary">
                           <div class="modal-text">
                             <p>
-                                Many of these side projects that I did encompass my personal interest: Wine and dining, biking, and the financial market. There's nothing I love more than being able to apply what I do for work and what I learn in school to a topic that people care about, to make machine learning and statistics less scary and more accessible. Something that we could all relate to.
+                                Bots on Twitter are accounts that are controlled by computer programs, automatically producing content, and interacting with other accounts. These programs are turned on and off without following a pattern, making them hard to identify. Some bots only exist for providing some interesting tweets to users daily, but some bots are intentionally spreading disturbing or misleading information, which negatively impacts users’ experiences. Those malicious bots indirectly hurt Twitter’s image and business revenue. Although Twitter has already been able to identify most of the bot accounts, the company could have done better in Malicious Bots Classification. Therefore, this project propose a novel bot type classification method by using TFIDF. With the supervised machine learning method, this study aims to detect malicious Twitter bot types based on bot behaviors and text analysis.
                                 <br><br>
-                                <b>1. Grubhub vs. Uber Eats Twitter Sentiment Analysis</b><br>
-                                I crawled tweets mentioning Grubhub and Uber Eats on Twitter using tweepy to perform EDA and sentiment analysis to compare the popularity between the two food delivering services in said area, thereby offering insights on products and service improvement for both businesses. 
-                                An analysis for Seamless might not be as easy due to its generic name, making it hard to distinguish between content.<br>
-                                Comparing the tweets mentioning each service, Grubhub has more positive sentiment percentage than Uber Eats.
-                                I zeroed in on particular geographic location (Greater New York Metropolitan area) and analyzed other competitors (often also mentioned in the tweets), major customer complaints, most popular foods and restaurants for each service, and visualized analytics result.
+                                <b>BIG PICTURE</b><br>
+                                During the modeling process, the primary source of input data is bots' IDs from Bot Repository. I use Python to crawl users'information and tweets based on these IDs. <br>
+				The process is divided into two phase. In phase one, I start off with features extraction with Tweeter's metadata then applied classifier, Random Forest, with IBM SPSS Modeler platform to create testing model with 13 significant indicators to predict behaviors of certain malicious bot types. In phase two, to further improve on the result, I created a dictionary for each type of malicious bots and calculated the TFIDF of keywords in the dictionary of each tweet. Then I again applied Random Forest with additional TFIDF features, I got model that can predicted malicious bots correctly of 91.68% on the testing set.<br>
+                                
                                 <br><br>
-                                <b>2. Predicting Citi Bike Trip Duration Using Data Mining Algorithms</b><br>
+                                <b>2.BASELINE MODEL</b><br>
                                 I love Citi Bike. If you live in New York City you must know that it feels absolutely wonderful to bike around Central Park and by the Hudson river in the fall. It's like you're in a movie and that anything is possible.  
                                 So I took this large dataset released by Citi Bike and did some modeling with it, hoping to get some insight.<br>
 
