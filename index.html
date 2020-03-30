@@ -289,12 +289,19 @@
 				<b>PHASE TWO - BEHAVIORAL FEATURES AND TEXT SEMANTICS DETECTION</b><br><br>
 				In phase two, I used Python package NLTK to get keywords dictionary and frequency of each keyword for 216,173 tweets. I calculated every term's frequency for each group of malicious bots. I set he threshold for term frequency rate is 0.05%. I picked every term with that is larger than the threshold to create detection dictionaries for fake followers, scam bots, and spam bots. To calculate fitting degree of each tweet with three dictionaries, I used Python and Excel to calculate they keywords' TFIDF in each tweet and see whether these dictionaries contribute to our prediction. Finally, I normalized TFIDF of each tweet to make sure they are under the same weight then calculated the average normalized TFIDF of each account. Wordcloud are used to check the term frequency, and the results of Word Cloud were consistent with the TFIDF calculation.<br><br>
 				In short, Fake Followers have the lowest TFIDF score in all three dictionaries and a little better match in Fake Follower dictionary, probably due to their small number of tweets. Scam Bots are in the middle, and Spam Bots have high TFIDF in all three dictionaries and especially in the spam dictionary. Spam Bots do post tons of tweets, and the result indicates that there are some words in the spam dictionary that have discriminative power to distinct Spam Bots from other bots. We added these three average TFIDF as our new features in our detection model and built a new model to see whether these three new features can contribute to our overall accuracy.<br><br>
-                                <img src="img/type1.png" class="model-text" alt="Tweeter Projects">
+                                <b> Spam bot's Tweet WordCloud <br><br>
+
+				 <img src="img/type1.png" class="model-text" alt="Tweeter Projects">
 				 <br><br>
+				 <b> Scam bot's Tweet WordCloud <br><br>
 				 <img src="img/type2.png" class="model-text" alt="Tweeter Projects">
-				  <br><br>
+				 <br><br>
+				 <b> Fake Follower's Tweet WordCloud <br><br>
+				 <img src="img/type3.png" class="model-text" alt="Tweeter Projects">
 				The Random Forest Classification applied 12 inputs as predicting factors to train 1405 records again. The dataset was partitioned into 70% of the training set and 30% of the testing set. Adding three new inputs of average TFIDF scores of Fake Followers, Scam Bots, and Spam Bots, the model produced a new list of important indicators. The top three indicators now are average of retweet count for each tweet, the number of followers, and average TFIDF score of the spam bot. According to the result, the TFIDF score plays a significant role in classifying types of malicious bots. This new model predicted malicious bots correctly of 91.68% on the testing set.<br><br>
-				  <img src="img/twitterdashboard.png" class="model-text" alt="Tweeter Projects">
+				  <img src="img/P2indicator.png" class="model-text" alt="Tweeter Projects">
+				    <br>
+				   <img src="img/P2indicator2.png" class="model-text" alt="Tweeter Projects">
 				 <br><br>
 	
                                 <b>EVALUATION</b><br><br>
