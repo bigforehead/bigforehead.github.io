@@ -407,9 +407,30 @@
 				In this case, the content-based filtering was designed for new users who came to search for a specific song, there was no existing user's profile. The input song's name and artist's name were taken as the user's profile and then the specific song's index was matched in the cosine similarity matrix to return the 10 similar songs. <br>
 				Furthermore, artists similarity was taken into account. The similarity scores of one specific artist's similar artists' songs for the specific song an user searched for were matched in the cosine similarity matrix, and the top 10 similar songs belong to the similar artists were returned. Finally, along with the specific song the user searched for, the algorithm recommended 20 other songs that were closet in cosine distance to the user's input song.<br>
 				Three different cosine similarities were used to recommend 20 songs, respectively, and the overlapping songs among three results were taken as the final recommendations.<br>
-				     <img src="img/content_base_alogrithm.png" class="model-text" alt="Song Projects"><br>
+				     <img src="img/content_base_algorithm.png" class="model-text" alt="Song Projects"><br>
+				<b>TFIDF for Lyrics</b><br>
+				After stopwords removal and Porter stemming for lyrics, the TF-IDF Vectorizer in the python scikit-learn package was used to calculate the TFIDF of each song's lyrics. However, the was a limitation in the dataset as the lyrics came in the form as bag-of-words rather than the original lyrics. The actual lyrics were protected by copyright, and Million Song Dataset did not have permission to redistribute them, therefore, only unigram could be used. <br>
+				After getting the TFIDF matrix, the cosine_similarity in the python scikit-learn package was used to calculate the cosine similarity scores among different tracks based on the TFIDF.
+				<br><br>
+				<b>Word2vec for Lyrics</b><br>
+				Word2vec is a two-layer neural net that processes text by “vectorizing” words. Its input is a text corpus, and its output is a set of vectors: feature vectors that represent words in that corpus. While Word2vec is not a deep neural network, it turns text into a numerical form that deep neural networks can understand. The purpose and usefulness of Word2vec are to group the vectors of similar words in vector space. That is, it detects similarities mathematically. Word2vec creates vectors that are distributed numerical representations of word features, features such as the context of individual words. It does so without human intervention.[2]<br>
+				The data size was so large that calculating the cosine similarity based on the high dimensional sparse TFIDF matrix was time-consuming and required a lot of memory. Thus, the Word2vec was used in our second method. However, the same limitation of lyrics made Word2vec less accurate since there was no context as only unigram could be used.<br>
+				The Word2Vec model in the python gensim package was used to create vectors for each song’s lyrics. The words appearing only once were ignored, the total dimension of the word vectors was set 200, and the window size was set as 1 because there were only unigrams in the lyrics.<br>
+				After getting the Word2vec matrix, the cosine_similarity in the python scikit-learn package was used again to calculate the cosine similarity scores among different tracks based on the vectors.
+				
+				<br><br>
+				<b>LDA for Lyrics</b><br>
+				Topic modeling is a type of statistical modeling for discovering the abstract “topics” that occur in a collection of documents. Latent Dirichlet Allocation (LDA) is an example of the topic model and is used to classify text in a document to a particular topic. It builds a topic per document model and words per topic model, modeled as Dirichlet distributions.[5] Thus, the big idea behind LDA is that each document can be described by a distribution of topics, and each topic can be described by a distribution of words.<br>
+				The assumption that there must be similar topics among all songs was used in this case.Limiting the number of topics could also help to save time and memory when dealing with a large dataset. Therefore, the LDA was used in the third method. LDA ignores syntactic information and treats documents as bags of words, so the unigram format in the dataset doesn’t matter too much in this method.<br>
+				The LDA Model in the python gensim package was used to create a topic matrix for all songs’ lyrics. Only the top 10 topics were selected in the model.<br>
+				After getting the topic model matrix, the cosine_similarity in the python scikit-learn package was used again to calculate the cosine similarity scores among different tracks based on the topics’ weights.<br>
+				<br>
+				<b>Artist Similarity</b><br>
+				Million Song Dataset offered a dataset containing similarity among artists, which expanded the content of our content-based filtering. This data was used after the cosine similarity was calculated. The similar artists’ songs were into account, even though they were not in the top 10 similar songs list as the assumption was that similar artists would attract the same audiences in some way.
+				<br><br>
+				
                                 <b>DISCUSSION</b><br>
-                                Coming soon...
+                                Coming soon
                                 <br><br>
                                 <b>CONCLUSION</b><br>
                                 Coming soon....
