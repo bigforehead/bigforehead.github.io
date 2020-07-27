@@ -354,13 +354,12 @@
                           <hr class="star-primary">
                           <div class="modal-text">
                             <p>
-                                Introduction
+                       
                                 <br><br>
                                 <b>BIG PICTURE</b><br>
                       
                                 This project aimed to build an useful and comprehensive music recommendation system based on the Million Song Dataset and musiXmatch dataset. In details, the two datasets include data of user listening history, song metadata, artist metadata, artist similarity, and lyrics. To build the recommendation systems, three algorithms were employed, including popularity-based, collaborative filtering, and content-based in order to generate three different recommendation lists - Hot Song List, Personal List, and New User List. Those algorithms were compared and combined to establish recommending strategy for different scenarios and users. ALS algorithm was used for a personal recommendation, and lyric-based and artist-based similarity recommendation was employed to solve the cold-start problem. The whole system was built with Python and PySpark on Google Cloud Platform and AWS.<br><br>
-				In this project, we want to focus on the streaming music industry. The potential benefits of a state of art recommendation system are valuable for streaming music industry. Some possible benefits include the improvement of user retention and engagement as well as a comprehensive understanding of customers' taste and the changing trend of their tastes.<br><br>
-				
+				In this project, we want to focus on the streaming music industry. The potential benefits of a state of art recommendation system are valuable for streaming music industry. Some possible benefits include the improvement of user retention and engagement as well as a comprehensive understanding of customers' taste and the changing trend of their tastes.
 
                                 <br><br>
 				<b>DATASET DESCRIPTION</b><br>
@@ -368,7 +367,8 @@
 				Regarding the Million Song subset, besides 1,000,000 unique tracks ID data, the song metadata, the links between artist ID and the tags, and artists’ similarity were extracted using the SQLite databases. For artists, the artists’ location data was also used.<br><br>
 				The Taste Profile subset contains user listening history. The dataset scales up to 488MB, including 1,019,318 unique users, 384,546 unique MSD songs, and 48,373,586 user-song-play count triplets.<br><br>
 				The musiXmatch dataset provides official lyrics collection of the Million Song Dataset in the bag-of-words format as well as the full mapping of MSD IDs to musiXmatch IDs. The mapping comes as a text file, including 779 thousand matches. The lyrics are directly associated with Million Song Dataset tracks regarding similar artists, tags, years, and audio features. We extracted the lyrics with the SQLite database. Each track is described as the word-counts for a dictionary of the top 5,000 words across the set. The split of training and testing was done according to the split for tagging, regarding tagging test artists. There are 210,519 training bag-of-words, 27,143 testing ones. The dataset contains track ID, mxm ID, word of lyrics, and frequency of the words features.<br><br>
-				After mapping all the musiXmatch IDs, track ID, and song ID from listening history, the final dataset scaled up to 3GB.<br><br>
+				After mapping all the musiXmatch IDs, track ID, and song ID from listening history, the final dataset scaled up to 3GB.<br>
+				    <img src="img/song_baselinemodel.png" class="model-text" alt="Song Projects">
 				<br><br>
                                 <b>BASELINE MODEL</b><br>
                                 Coming soon... 
