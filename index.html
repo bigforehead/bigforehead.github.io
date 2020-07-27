@@ -379,16 +379,35 @@
 				
 				<br>
 				Next, metadata of tracks were extracted from SQLite database ("track_metadata.db").
-				<br>
-				    <img src="img/track_metadata.png" class="model-text" alt="Song Projects">
+				
+			
 				<br>
 				For lyrics data, data were extracted from "lyrics.db" SQLite database.
-				<br>
-				    <img src="img/lyrics_data.png" class="model-text" alt="Song Projects">
+				
+				
 				<br>
 				For artists similarity data, target artist IDs and similar artist IDs were fetched from "artist_similarity.db" SQLite database. 
-				    <img src="img/artist_similarity_data.png" class="model-text" alt="Song Projects">
+				
                                 <br><br>
+				<b>ALGORITHM DEVELOPMENT</b><br>
+				<b>1. Popularity Benchmark</b><br>
+				As a benchmark for recommending songs, recommending popular songs is better than random guesses. Data were filtered with total frequency based on listening history then top 10 heated tracks were selected. This would be the baseline saver in case there is no data for a new user (cold-start problem).
+				<br><br>
+				<b>2. Collaborative Filtering</b><br>
+				Collaborative filtering is probably one of the most used approaches for the recommendation system, or at least as a necessary component of some advanced recommendation structures. However, it has a surprisingly simple requirement for data. It needs nothing else but users’ historical preference on a set of items. The main assumption here is that the users (listeners in our case) who have agreed in the past are very likely to agree in the future. For multiple users, it assumes if user A liked the same product as user B, A would also like to have similar taste as B for other B’s favorites.<br>
+				In terms of the ratings, it often requires some metrics to indicate user’s preference, which can either be explicitly available data such as 5 stars or thumbs-up on the product, or an implicitly derived score such as clicks, number of purchases or other data recorded in the cookie. In this case, traditional way was implemented by utilizing the listening frequency as the rating. The assumption when lacking explicit rating is that a higher listening frequency equates to a higher rating.<br>
+				For ALS, a matrix with frequency of each song played by each user was constructed. Certainly, this matrix is sparse with tons of missing value, as a limited number of users have listened to only a limited set of songs. The high-level idea is to approximate the matrix by factorizing it as the product of two matrices: the user matrix that represents each user, while the item matrix describes properties of each track.<br>
+				  <img src="img/ALS_matrix.png" class="model-text" alt="Song Projects"><br>
+				For a reasonable result, two matrices were created so that the error for the known user-song pairs is minimized. The error here refers to the rooted mean squared error (RMSE). In a more detailed technical level, ALS would first fill the user matrix with a random value, and then optimize the song matrix value by minimizing the error. After that, it “alters”, which means it would hold the song matrix and optimize the value of the user’s matrix. This step minimizes two loss functions alternatively and should achieve some optima. <br>
+				During the implementation, Spark ML pipeline was used with the following settings. A big set of the parameters were picked and grid-search with cross-validation on this space was executed. Some important parameters to tune include: maxIter (the max number of iterations), rank (the number of latent factors, which basically determined the shape of matrix), and regParam (the regularization parameter).
+                              
+                                <br><br>
+				<b>3. Content-Based Filtering</b><br>
+				Content-based filtering recommended similar songs based on the cosine similarity of different features of lyrics to a user's profile. Each songs' lyrics were characterized by its (1) TFIDF, (2) Word2vec, (3), Topic Model with LDA. The Features were represented in matrices, and the cosine similarity was calculated between matrices. <br>
+				In this case, the content-based filtering was designed for new users who came to search for a specific song, there was no existing user's profile. The input song's name and artist's name were taken as the user's profile and then the specific song's index was matched in the cosine similarity matrix to return the 10 similar songs. <br>
+				Furthermore, artists similarity was taken into account. The similarity scores of one specific artist's similar artists' songs for the specific song an user searched for were matched in the cosine similarity matrix, and the top 10 similar songs belong to the similar artists were returned. Finally, along with the specific song the user searched for, the algorithm recommended 20 other songs that were closet in cosine distance to the user's input song.<br>
+				Three different cosine similarities were used to recommend 20 songs, respectively, and the overlapping songs among three results were taken as the final recommendations.<br>
+				     <img src="img/content_based_alogrithm.png" class="model-text" alt="Song Projects"><br>
                                 <b>DISCUSSION</b><br>
                                 Coming soon...
                                 <br><br>
