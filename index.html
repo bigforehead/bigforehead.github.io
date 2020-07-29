@@ -544,9 +544,107 @@
                          
                                 <br><br>
                                 April 1, 2020.
+				<b>BIG PICTURE</b><br>
+				 Computers have evolved quickly nowadays and focused more on developing an algorithm to answer a question like a human. Google Search has become the domain search engine developer in the United States market since 2009. Recently, Google Research team, dedicated to advancing natural language processing and other types of machine learning, has gathered over 6k records of question-answer paired data to build predictive classification models that can perform the more human-like subjective question-answering algorithm. <br>
+				 Building a subjective and better human-like intelligent question and answer (Q&A) system is a cutting-edge problematic topic among data scientists, especially when combining text analytics and machine learning techniques. By improving the Q&A system, every time a customer searches on Google, the search engine will retrieve a much more precise answer that meets a desirable answer for an inquiry. The approach of building content predictive classification algorithms and type classification algorithms, and then evaluating these algorithms may demonstrate insight into that topic. <br>
+				 This project aimed to build and evaluate classification models with different target measurements, including content classification models for the content of question and answer based on categories and type classification models for the probability of answer and question based on their types. <br>
+				 Results of predictive classification models showed that Support Vector Machine model with feature Term Frequency – Inverse Document Frequency (TF-IDF) in the Q&A contents classification had the highest prediction accuracy in both question and answer; while Support Vector Machine model with feature TF-IDF in the type classification had the highest prediction accuracy in question, and Long Short-Term Memory model with feature TF-IDF in the Q&A types classification had the highest prediction accuracy in answer. <br>
+			
                                 <br><br>
-                                Coming soon...
-                    
+				<b>DATA DESCRIPTION</b><br>
+				 The Google QUEST Q&A Labeling data set is featured on Kaggle, the world’s largest data science community. Google Research team, CrowdSource, collected the data from various Stack Exchange properties. Google used this data set to hold a public featured code competition for Kaggle users. The competition aims to improve automated understanding of complex question and answer content. This data set contains approximately 6500 pairs of question and answer gathered from 70 websites.<br>
+				 The dataset includes a training dataset and a testing dataset. Both datasets include questions id (qa_id), question_title, question_body, question_user_name, question_user_page, answers, answer_user_name, answer_user_page, url, host and categories. The training dataset also includes values of 30 labels for each question-answer pair of the question types and answer types, which need to be further processed in preprocessing steps for our models, except the questions, answers and categories.The training data contains some duplicated questions with different answers. The values of 30 labels have continuous values in the range 0 to 1.<br>
+				<br>    
+				<b>METHODOLOGY DIAGRAM</b><br>
+				 <img src="img/google_methodology.png" class="model-text" alt="Google Q&A"><br>  
+				<br><br>
+				    
+				 <b>1. Data Preparation | Classes Labeling</b><br>
+				 I manually labeled the target for question type and answer type based on the probabilities score provided by the dataset. The dataset includes values of labels for each question-answer pair of the question types and answer types. To make the dataset applicable to classification, I processed the dataset and gave each Q&A pair two new features based on the values, which were question target and answer target. I introduced the two new features using the following rules: the label of a question with the largest value will be the question target; and if there are more than 2 largest values, the question target will be labeled as “mixed”. The same rule is applied to answer targets. The following figures provide an example.<br>
+				  <img src="img/google_label.png" class="model-text" alt="Google Q&A"><br>  
+				 I assigned id for each category, answer type and question type based on the target.<br><br>
+				 <b>2. Variables Selection</b><br>
+				 In part one, Q&A category classification, I assigned “category” as our target. “Question_body” and “answer” were selected as the inputs for feature extraction and feature engineering.<br>
+				 Based on initial descriptive statistical analysis, the categories of question and answer pairs were skewed towards Technology and Stackoverflow category, which contained 40% and 21% of the dataset’s observations, respectively. Therefore, the problem of imbalanced classes emerged in this dataset. When encountering such problem, there are absolutely difficulties to classification with standard algorithm as the model can be biased towards the majority class.<br>
+				    <img src="img/google_category_1.png" class="model-text" alt="Google Q&A"><br>
+				 In part two, Q&A type classification, I assigned “target_answer_mix” and “answer_target_mix”, which I generated with the highest probabilities score from each question type features and answer type features from the train data set Kaggle provides. Next, I considered question_body and answer as the input for feature extraction and feature engineering in order to build predictive models.<br>
+				 The initial descriptive analysis also shows that there were extremely unbalanced classes in this data set. Regarding question type target distribution of observations, most observations were remained in instruction type, mixed type, choice type, and reason explanation type among 10 classes. Regarding answer type target distribution of observations, answer type procedure was extremely unbalanced towards other classes as this class provided the lowest number of observations.<br> 
+				 Question: <br>
+				    <img src="img/google_category_2q.png" class="model-text" alt="Google Q&A"><br>
+				 Answer: <br>
+                            	    <img src="img/google_category_2a.png" class="model-text" alt="Google Q&A"><br>
+				 <br>
+				 <b>3. Text Preprocessing</b><br>
+				 I started off with preprocessing the question body and answer corpuses in preparation of the feature engineering process. I used the nltk package to perform stop-words removal, stemming and lemmatization, punctuation filtering and lowercase. I did not remove all punctuations because some of those might be suitable for the context of technology, stack overflow, or science in category classification part as well as the the structure of question and answer type in types classification part. 
+                                 <br><br>
+				<b>PART I: Category/Topic Classification</b><br>
+				 For feature engineering, I extracted three features, including TFIDF, Word2Vec, and Bag-of-Word (BOW), seperately from the question body and answer corpuses.<br>
+				    <1> TFIDF: I extracted TFIDF vectors from the corpus. For TFIDF engineering, I normalized TFIDF term frequency with logarithmic form, minimized the numbers of document a word must be present to be kept to 1, used Euclidean norm of 1 for all features vector, smoothed inversed document frequency weights to prevent zero divisions, and considered both unigram and bigram.<br>
+				    The demo of top 5 correlated keywords for unigram and bigram, using TFIDF vectors, regarding each topic was demonstrated as follow:<br>
+				     <img src="img/google_demo_1.png" class="model-text" alt="Google Q&A"><br>
+				    <2> Bag-of-Word (BOW): I performed tokenization and counted frequency of each token. I set the minimum of document frequency to 1 and only use unigram in this case.<br>
+				    <3> Word2Vec: I performed tokenization and built the Word2Vec to vectorize the question and answer body. <br>
+				 Through trials of fitting the models with each of the features, TFIDF performed the best among the three features. Bag-of-words might perform well with Naïve Bayes but the accuracy rate was lower than TFIDF with Support Vector Machine. For further details, review the Appendix section in the jupyter notebook. In conclusion, I selected TFIDF as the main feature.<br>
+				 Due to the unbalanced classes problem in the data set, I decided to apply Synthetic Minority Oversampling Technique (SMOTE) to randomly oversample the training data set with TFIDF features.<br>
+				 <br>
+				 <b>Model Building</b><br>
+				 Different algorithms were applied to classify 5 topics of culture, science, technology, life arts and stackoverflow. Those models are Naïve Bayes, Support Vector Machine, Decision Tree and Random Forest.<br><br>
+				 <b>Model Selection</b><br>
+				     <img src="img/google_modelselection_1.png" class="model-text" alt="Google Q&A"><br>
+				 I performed performed 5-fold cross-validation on the training dataset and evaluate the model selection based on accuracy rate of the training data set. Support Vector Machine performed the best among all other models. It provided 98% of accuracy for question and 95% accuracy for answer on topic classification. Next, I fitted Support Vector Machine on the testing data set and evaluate the model.<br><br>
+				 <b>Model Evaluation</b><br>
+				 I used precision score, recall score and F-1 score to evaluate the models.<br>
+				      <img src="img/google_evaluation_1.png" class="model-text" alt="Google Q&A"><br>
+				 For Question category/topic classification, Support Vector Machine performed on testing data with 0.75 for precision score and recall score and 0.71 for F1-score. Regarding each topic, the precision score ranged from 63% to 80%, which indicated a good performance. Out of all questions that were labeled as culture, technology, stackoverflow, science and life arts, the model predicted, respectively, 80%, 75%, 75%,78% and 63% of them correctly.<br>
+				 For Answer category/topic classification, Support Vector Machine performed on testing data with 0.74 for all precision, recall and F-1 score. Those scores were slightly lower compared to that of the question. In general, regarding each class, out of all questions that were labeled as culture, science, stackoverflow, technology, and life arts, the model predicted, respectively 88%, 81%, 63%, 75%, and 68% of them correctly.<br>
+				     <img src="img/google_matrix_1.png" class="model-text" alt="Google Q&A"><br>
+				 Looking at the confusion matrices, the number of technology questions were the highest correct prediction. However, at the same time, the number of observations labeled as technology was the highest, therefore, we need to look at each class to consider the performance of the model. In general, the model performed prediction the most accurately on questions and answers labeled as culture. On the other hand, the model might confuse between stackoverflow and technology since those topics contained similar keywords relating to code or software.<br><br>
+				 <b>PART II: Q&A TYPE CLASSIFICATION</b><br>  
+				 In the second part of this project, I classified 10 types of question and 4 types of answers. I evaluated different algorithm including Support Vector Machine, Naïve Bayes, Long Short-Term Memory Recurrent Neural Network, and Artificial Neural Network to decide the best models for question and answer type classification. I seperated the first three models using Python with the final model using SPSS Modeler. Besides, I only used training data set of Kaggle for this part. I partitioned training and testing into 80-20 ratio.
+				 For feature engineering, I extracted 2 types of features, 1000 first word counts and TFIDF vectors. After trials, TFIDF still perform better. Therefore, I applied TFIDF features of part one to part two. I normalized TFIDF term frequency and considered both unigram and bigram. <br>
+				 Here are some examples of the top correlated keywords as unigram and bigram of TFDF features. <br>
+				 Question: <br>   
+				    <img src="img/google_demo_2q.png" class="model-text" alt="Google Q&A"><br>
+				 Answer: <br>
+				    <img src="img/google_demo_2a.png" class="model-text" alt="Google Q&A"><br>
+				 <br>
+				 <b>Model Building</b><br>
+				 I chose chose Support Vector Machine, Naïve Bayes, and Long Short-Term Memory. For Long Short-Term Memory, I performed one hot encoding on the target of question and answer, set weight to the model to deal with imbalanced classes, train for two times and set validation dataset as 20% of the training data. The class weight was calculated based on the proportion of observations of each class against the whole data set. <br><br>
+				 <b>Model Selection</b><br>
+				 For question type classification, even though Support Vector Machine performed 89.19% accurately on training data, which was slightly lower than LSTM did of 91.2%, Support Vector Machine performed the best on training data with the highest accuracy rate of 50.82%. On the other hand, for answer type classification, LSTM remained as the best classifier with the highest accuracy on training and testing data, 96.9% and 63.89%, respectively. <br>
+				 Therefore, Support Vector Machine was chosen for classify 10 types of questions while Long Short-Term Memory was chosen to classify 4 types of answers.<br><br>
+				 <b>Model Evaluation</b><br>
+				 In order to evaluate the model, I fitted each model on testing data and used precision, recall and f1-score to evaluate the performance of each models.<br>
+				 For Question Type classification, Support Vector Machine predicted on an average of 0.49 precision score, 0.51 recall score and 0.49 F1-score. The model predicted on question type instruction with 0.62 of precision score, 0.78 of recall score and 0.69 F1-score. Of all the questions that were labeled as instructions, the model predicted 62% correctly out of them.<br>
+				 For Answer Type classification, Long Short-Term Memory predicted on an average of 0.53 precision score, 0.61 of recall score and 0.56 of harmony score. However, the model predicted the best on answer type instructions and answer type reason explanation while poorly predicted answer type mixed and answer type procedure. Of all the answers that were labeled as instruction and reason explanation, the model predicted 66% and 62% correctly, respectively. However, the model could not predict any answer type procedure as all the three scores are 0.<br>
+				     <img src="img/google_evaluation_2.png" class="model-text" alt="Google Q&A"><br>
+				     <img src="img/google_matrix_2.png" class="model-text" alt="Google Q&A"><br>
+				 Looking at the confusion matrices of both question type and answer type predictions, both models did not perform very well on the testing data set. The model predicted the most with question type instruction as well answer reason explanation and answer type instruction. <br>
+				 On the question type classification, the model tended to miss classify question mixed type with question type explanation. On the other hand, LSTM tended to miss classify answer type instruction with answer type reason explanation and answer type mixed.<br><br>
+				  <b>RESULTS & DISCUSSION</b><br>  
+				 Ideally, I would like to build models that can predict both the content and type of question and answer in this project. <br>
+				 In topic, or category, classification part, Support Vector Machine with TFIDF performed the best with an accuracy of 98% on training and a precision of 75% on testing for question, and an accuracy of 95% on training data and a precision of 74% on testing data. The performance of part one is great, especially on Culture topic.<br>
+				 In Q&A type classification part, Support Vector Machine performed the best for Question type classification with 89% on training yet 50% on testing. Long Short-Term Memory performed the best for answer type with about 91% on training data and 63% on testing data. However, the precision score for both question type and answer type classification on testing data ranged from 50% to 55%. <br>
+				 There are two main reasons why models cannot perform well in the second task. Firstly, TFIDF is not a good feature for distinguishing the type of a context. Secondly, there are too many types of the question-answer pair compared with the sample size. The testing data set does not provide enough observations for each type. Also, some of the types have few numbers of samples, which confuses the models. Oversampling would not help in this case since the data will be repeated generated based on only few observations. However, since the target has 10 different groups, the baseline accuracy can be considered as 10% in a random guess. In this case, an accuracy of 50% - 60% is still acceptable in this project. <br>
+				 <br>
+				   <b>RECOMMENDATIONS</b><br> 
+				 For future improvement, feature engineering can be improved with other features for distinguishing the type of a context rather than TFIDF. For instance, new features such as POS (part of speech) can be selected. This feature provides tag for nouns, adjective, adverb and other tags that relating to the structure of a sentence. The structure of a sentence can probably be a better identification of types of question and answer. <br>
+				 Besides, combining some of the groups to balance the size among them may also improve the performance. <br>
+				 Finally, collecting more data on each type and retrain the model can also help to improve the accuracy.
+				 <br><br>
+				   <b>CONCLUSION</b><br>
+				 In response to the Google question and answer classification project, I have built a model to classify topics of question and answer, Support Vector Machine with TFIDF features. However, for question and answer types classification, the Support Vector Machine and Long Short-Term Memory should be retrained again with different features and more data. Our model for content classification can contribute to the Q&A systems research in an effort of making the system become more human-like.
+				 <br><br>
+				   
+				 <b>REFERENCE</b><br>
+				 1. Li, Susan. “Multi-Class Text Classification with Scikit-Learn.” Medium, Towards Data Science, 20 Feb. 2018, towardsdatascience.com/multi-class-text-classification-with-scikit-learn-12f1e60e0a9f.<br>
+				 2. Javaid, Nabi. “Machine Learning Multiclass Classification with imbalanced data set.” Medium, Towards Data Science, Dec 22, 2018, towardsdatascience.com/machine-learning-multiclass-classification-with-imbalanced-data-set-29f6a177c1a.<br>
+				 3. “A Gentle Introduction to Imbalanced.” Machine Learning Mastery, Jan. 14, 2020, machinelearningmastery.com/what-is-imbalanced-classification.<br>
+				 4. “Best Algorithm for Classification.” Kaggle, kaggle.com/getting-started/42409. <br>
+				 5. Mohammed Terry-jack, “Tips and Tricks for Multi-class Classification.” Medium, Towards Data Science, Apr. 28, 2019, medium.com/@b.terryjack/tips-and-tricks-for-multi-class-classification-c184ae1c8ffc.
+				 <br><br>
+				    
+				<i>Available on <a href="https://github.com/bigforehead/Text-Analytics--Google-Quest-Q-A-Multi-Classification">Github</a>.</i><br><br>
                                 <iframe width="100%" height="500px" src="file/GoogleQ&A.pdf#toolbar=0"></iframe>
 
                             </p>
