@@ -358,7 +358,7 @@
                           <div class="modal-text">
                             <p>
                        		
-                                <br><br>
+                                <br>
 				 Recommendation Systems are very standard and popular all over the web. Companies like Netflix, Spotify, Apple, Pandora, and LinkedIn leverage the recommender systems to help users find new items quickly, creating a delightsome user experience while driving incremental revenue.
 				<br><br>    
                                 <b>BIG PICTURE</b><br>
@@ -370,7 +370,7 @@
 				<b>ABOUT THE DATA</b><br>
 				The Million Song Dataset, a collaborative project between The Echo Nest and LabROSA, is a freely available collection of audio features and meta data for a million contemporary popular music tracks.<br><br>
 				
-				The link are available here: <br><br>
+				The links are available here: <br>
 				<a href="http://millionsongdataset.com/tasteprofile/">Taste Profile</a><br>
 				<a href="http://millionsongdataset.com/musixmatch/">The musiXmatch dataset</a><br>
 				<a href="http://millionsongdataset.com/pages/getting-dataset/#subset ">The Million Song subset</a>
@@ -390,56 +390,41 @@
 				For ALS, a matrix with frequency of each song played by each user was constructed. Certainly, this matrix is sparse with tons of missing value, as a limited number of users have listened to only a limited set of songs. The high-level idea is to approximate the matrix by factorizing it as the product of two matrices: the user matrix that represents each user, while the item matrix describes properties of each track.<br><br>   
 				    <img src="img/ALS_matrix.png" class="model-text" alt="Song Projects"><br><br>
 				For a reasonable result, two matrices were created so that the error for the known user-song pairs is minimized. The error here refers to the rooted mean squared error (RMSE). In a more detailed technical level, ALS would first fill the user matrix with a random value, and then optimize the song matrix value by minimizing the error. After that, it “alters”, which means it would hold the song matrix and optimize the value of the user’s matrix. This step minimizes two loss functions alternatively and should achieve some optima. <br><br>
-				During the implementation, Spark ML pipeline was used with the following settings: <br><br>
-				    - A big set of the parameters were picked and grid-search with cross-validation on this space was executed.<br><br> 
+				During the implementation, Spark ML pipeline was used with the following settings: <br>
+				    - A big set of the parameters were picked and grid-search with cross-validation on this space was executed.<br>
 				    - Some important parameters to tune include: maxIter (the max number of iterations), rank (the number of latent factors, which basically determined the shape of matrix), and regParam (the regularization parameter).
                                 <br><br>
 				<b>3. Content-Based Filtering</b><br><br>
-				Content-based filtering recommended similar songs based on the cosine similarity of different features of lyrics to a user's profile. Each songs' lyrics were characterized by its (1) TFIDF, (2) Word2vec, (3), Topic Model with LDA. The Features were represented in matrices, and the cosine similarity was calculated between matrices. <br>
-				In this case, the content-based filtering was designed for new users who came to search for a specific song, there was no existing user's profile. The input song's name and artist's name were taken as the user's profile and then the specific song's index was matched in the cosine similarity matrix to return the 10 similar songs. <br>
-				Furthermore, artists similarity was taken into account. The similarity scores of one specific artist's similar artists' songs for the specific song an user searched for were matched in the cosine similarity matrix, and the top 10 similar songs belong to the similar artists were returned. Finally, along with the specific song the user searched for, the algorithm recommended 20 other songs that were closet in cosine distance to the user's input song.<br>
-				Three different cosine similarities were used to recommend 20 songs, respectively, and the overlapping songs among three results were taken as the final recommendations.<br>
-				     <img src="img/content_base_algorithm.png" class="model-text" alt="Song Projects"><br>
-				TFIDF for Lyrics<br>
-				After stopwords removal and Porter stemming for lyrics, the TF-IDF Vectorizer in the python scikit-learn package was used to calculate the TFIDF of each song's lyrics. However, the was a limitation in the dataset as the lyrics came in the form as bag-of-words rather than the original lyrics. The actual lyrics were protected by copyright, and Million Song Dataset did not have permission to redistribute them, therefore, only unigram could be used. <br>
-				After getting the TFIDF matrix, the cosine_similarity in the python scikit-learn package was used to calculate the cosine similarity scores among different tracks based on the TFIDF.
-				<br><br>
-				Word2vec for Lyrics<br>
-				Word2vec is a two-layer neural net that processes text by “vectorizing” words. Its input is a text corpus, and its output is a set of vectors: feature vectors that represent words in that corpus. While Word2vec is not a deep neural network, it turns text into a numerical form that deep neural networks can understand. The purpose and usefulness of Word2vec are to group the vectors of similar words in vector space. That is, it detects similarities mathematically. Word2vec creates vectors that are distributed numerical representations of word features, features such as the context of individual words. It does so without human intervention.[2]<br>
-				The data size was so large that calculating the cosine similarity based on the high dimensional sparse TFIDF matrix was time-consuming and required a lot of memory. Thus, the Word2vec was used in our second method. However, the same limitation of lyrics made Word2vec less accurate since there was no context as only unigram could be used.<br>
-				The Word2Vec model in the python gensim package was used to create vectors for each song’s lyrics. The words appearing only once were ignored, the total dimension of the word vectors was set 200, and the window size was set as 1 because there were only unigrams in the lyrics.<br>
-				After getting the Word2vec matrix, the cosine_similarity in the python scikit-learn package was used again to calculate the cosine similarity scores among different tracks based on the vectors.
+				Content-based filtering generates song playlists based on the cosine similarity calculated for three lyrical features, including (1) TF-IDF, (2) Word2Vec, and (3) Topic Model with Latent Dirichlet Allocation (LDA). <br><br>
+				In this case, the algorithm is designed for new users to search for a specific song. The users enter their favorite song or artist, then the system will match the song’s index with cosine similarity matrix and return 10 songs with similar content. <br><br>
+				    <img src="img/content_base_algorithm.png" class="model-text" alt="Song Projects"><br><br>
 				
-				<br><br>
-				LDA for Lyrics<br>
-				Topic modeling is a type of statistical modeling for discovering the abstract “topics” that occur in a collection of documents. Latent Dirichlet Allocation (LDA) is an example of the topic model and is used to classify text in a document to a particular topic. It builds a topic per document model and words per topic model, modeled as Dirichlet distributions.[5] Thus, the big idea behind LDA is that each document can be described by a distribution of topics, and each topic can be described by a distribution of words.<br>
-				The assumption that there must be similar topics among all songs was used in this case.Limiting the number of topics could also help to save time and memory when dealing with a large dataset. Therefore, the LDA was used in the third method. LDA ignores syntactic information and treats documents as bags of words, so the unigram format in the dataset doesn’t matter too much in this method.<br>
-				The LDA Model in the python gensim package was used to create a topic matrix for all songs’ lyrics. Only the top 10 topics were selected in the model.<br>
-				After getting the topic model matrix, the cosine_similarity in the python scikit-learn package was used again to calculate the cosine similarity scores among different tracks based on the topics’ weights.<br>
-				<br>
-				Artist Similarity<br>
-				Million Song Dataset offered a dataset containing similarity among artists, which expanded the content of our content-based filtering. This data was used after the cosine similarity was calculated. The similar artists’ songs were into account, even though they were not in the top 10 similar songs list as the assumption was that similar artists would attract the same audiences in some way.
-				<br><br>
-				After features creation, two key functions were defined to accomplish the recommendation system. The first function was defined to return the top 10 recommended songs simply based on the cosine similarity. The second function was defined to find the other top 10 recommended songs based on the artist similarity combined with cosine similarity. Finally, these two functions would create a DataFrame that contained the user input song along with the other 20 recommended songs. Three DataFrames would be created based on three cosine similarities, and they were merged to return the overlapping songs, which could be the most similar songs to the user input song.
-				<br><br>
-				<b>RESULT AND EVALUATION</b><br>
-				<b>1. Collaborative Filtering</b><br>
+				- TFIDF for Lyrics: TF-IDF stands for “Term Frequency – Inverse Document Frequency”. In this case, we vectorized the lyrics and use TF-IDF to quantify the word in song lyrics. We computed a weight to each word which signified the importance of the word in the lyrics.Because the actual lyrics were protected by copyright and Million Song Dataset did not have permission to redistribute them, the lyrics came in the form as bag-of-words rather than the original lyrics. This created limitation to this approach. <br><br> 
+			
+				- Word2Vec for Lyrics: Word2Vec is a two-layer neural net that processes text by “vectorizing” words and turns text into a numerical form. Word2vec groups vector of similar words in vector space as it detects similarities mathematically. Due to high volume of data, calculating the cosine similarity using high-dimensional sparse TFIDF matrix was time-consuming and costly. In this case, Word2vec was used as the second method. However, Word2Vec model was less accurate because there was no context due to lyric limitation.<br><br>
+				
+		
+				- LDA for Lyrics: Topic Modeling is an unsupervised approach used for identifying topics present in a text object and to derive hidden patterns exhibited by a text corpus. Latent Dirichlet Allocation (LDA) is one of the topic models that builds a topic per document model and words per topic model. The big idea behind LDA is that each document can be described by a distribution of topics, and each topic can be described by a distribution of words.We assumed that there are similar topics among all songs and limited the number of topics to help save time and memory. LDA was used as the third method. In this case, LDA ignored syntactic information and treated documents as bags of words, so the unigram format in the dataset did not matter much.<br><br>    
+				
+
+				<b>RESULT AND EVALUATION</b><br><br>
+				<b>1. Collaborative Filtering</b><br><br>
 				    Here is the benchmark of our top 10 most listened songs. <br>
 				    <img src="img/CL_result.png" class="model-text" alt="Song Projects"><br>
 				The data was split into three parts: 60% as train, 20% as validation, and 20% as test. Grid search and cross-validation on validation set was implemented to determine the best parameters of the recommendation system and only recommend the results to the new users in the test set once to avoid information leakage. The process was implemented from scratch and was locked in a pipeline. This work was constructed to avoid overfitting problems.<br>
 				As for Spark 2.0, when asked to provide a rating for new users never seen before, the ALS could only yield NAN value. . Therefore, it was impossible to adapt Spark ML’s Cross Validator to check the RMSE. So the algorithm was set to drop NAN values by default with customized cross validation process before using RMSE for evaluation.<br>
 				The following configuration steps were executed: (1) set appropriate parameters for users, items and rating; (2) fit ALS and transform the table to generate the prediction column; (3) run predictions against the validation set and check the error; (4) finalize the model with the best RMSE score. <br>
 				Exploratory analysis showed that more than half of the songs in the sample were listened at least once. Thus, it could be inferred that songs played more than once can better represent users' tastes and run the ALS on two versions of the datasets.<br>
-				Result comparison of model with all data and frequency >=2 data was shown as followed: <br>    
-				    <img src="img/CL_result_2.png" class="model-text" alt="Song Projects"><br>
+				Result comparison of model with all data and frequency >=2 data was shown as followed: <br><br>    
+				    <img src="img/CL_result_2.png" class="model-text" alt="Song Projects"><br><br>
 				Except for cross-validation, another common measurement is to compare the model with fake test data where every rating is the average number of frequencies from the train data. While the model excluding the 1-time listened songs returns a slightly higher RMSE score on the test dataset, it behaves better when compared with the average frequency. And this may hint the recommendation makes more sense. The highlighted tracks can be of the highest recommendation quality, as they are the overlap between two ALS recommendation models.
 				<br><br>
-				<b>2. Content-Based Filtering</b><br>
-				Let's simulate a new user searches for a song to see the recommendation results.<br>
-				    <img src="img/CB_simulate.png" class="model-text" alt="Song Projects"><br>
-				Three DataFrames were created after the function was run. The results showed: 4 same songs between TFIDF and Word2vec methods; 2 same songs between TFIDF and LDA methods; 2 same songs between Word2vec and LDA methods; 1 same song among three methods. Therefore, the final recommended song related to the Box Tops’ Soul Deep was Four Tops’ You Keep Running Away.<br>
-				    <img src="img/CB_result.png" width="800" height="633" class="model-text" alt="Song Projects"><br>
-				<b>LYRICS ANALYSIS</b><br>
+				<b>2. Content-Based Filtering</b><br><br>
+				Let's simulate a new user searches for a song to see the recommendation results.<br><br>
+				    <img src="img/CB_simulate.png" class="model-text" alt="Song Projects"><br><br>
+				Three DataFrames were created after the function was run. The results showed: 4 same songs between TFIDF and Word2vec methods; 2 identical songs between TFIDF and LDA methods; 2 same songs between Word2vec and LDA methods; 1 same song among three methods. Therefore, the final recommended song related to the Box Tops’ Soul Deep was Four Tops’ You Keep Running Away.<br><br>
+				    <img src="img/CB_result.png" width="800" height="633" class="model-text" alt="Song Projects"><br><br>
+				<b>LYRICS ANALYSIS</b><br><br>
 				Besides recommendation system building, further exploration of lyrics was conducted by implementing the LDA model and visualizing the most popular 30 words in lyrics based on the time, including songs from the 2000s, 90s, 80s, 70s, 60s, and 50s.<br>
 				<br>
 				<b>1. Topic Modeling Visualization</b><br>
