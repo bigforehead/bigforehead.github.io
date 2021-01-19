@@ -399,18 +399,18 @@
 				In this case, the algorithm is designed for new users to search for a specific song. The users enter their favorite song or artist, then the system will match the song’s index with cosine similarity matrix and return 10 songs with similar content. <br><br>
 				    <img src="img/content_base_algorithm.png" class="model-text" alt="Song Projects"><br>
 				
-				- TFIDF for Lyrics: TF-IDF stands for “Term Frequency – Inverse Document Frequency”. In this case, we vectorized the lyrics and use TF-IDF to quantify the word in song lyrics. We computed a weight to each word which signified the importance of the word in the lyrics.Because the actual lyrics were protected by copyright and Million Song Dataset did not have permission to redistribute them, the lyrics came in the form as bag-of-words rather than the original lyrics. This created limitation to this approach. <br><br> 
+				TFIDF for Lyrics: TF-IDF stands for “Term Frequency – Inverse Document Frequency”. In this case, we vectorized the lyrics and use TF-IDF to quantify the word in song lyrics. We computed a weight to each word which signified the importance of the word in the lyrics.Because the actual lyrics were protected by copyright and Million Song Dataset did not have permission to redistribute them, the lyrics came in the form as bag-of-words rather than the original lyrics. This created limitation to this approach. <br><br> 
 			
-				- Word2Vec for Lyrics: Word2Vec is a two-layer neural net that processes text by “vectorizing” words and turns text into a numerical form. Word2vec groups vector of similar words in vector space as it detects similarities mathematically. Due to high volume of data, calculating the cosine similarity using high-dimensional sparse TFIDF matrix was time-consuming and costly. In this case, Word2vec was used as the second method. However, Word2Vec model was less accurate because there was no context due to lyric limitation.<br><br>
+				Word2Vec for Lyrics: Word2Vec is a two-layer neural net that processes text by “vectorizing” words and turns text into a numerical form. Word2vec groups vector of similar words in vector space as it detects similarities mathematically. Due to high volume of data, calculating the cosine similarity using high-dimensional sparse TFIDF matrix was time-consuming and costly. In this case, Word2vec was used as the second method. However, Word2Vec model was less accurate because there was no context due to lyric limitation.<br><br>
 				
 		
-				- LDA for Lyrics: Topic Modeling is an unsupervised approach used for identifying topics present in a text object and to derive hidden patterns exhibited by a text corpus. Latent Dirichlet Allocation (LDA) is one of the topic models that builds a topic per document model and words per topic model. The big idea behind LDA is that each document can be described by a distribution of topics, and each topic can be described by a distribution of words.We assumed that there are similar topics among all songs and limited the number of topics to help save time and memory. LDA was used as the third method. In this case, LDA ignored syntactic information and treated documents as bags of words, so the unigram format in the dataset did not matter much.<br><br>    
+				LDA for Lyrics: Topic Modeling is an unsupervised approach used for identifying topics present in a text object and to derive hidden patterns exhibited by a text corpus. Latent Dirichlet Allocation (LDA) is one of the topic models that builds a topic per document model and words per topic model. The big idea behind LDA is that each document can be described by a distribution of topics, and each topic can be described by a distribution of words.We assumed that there are similar topics among all songs and limited the number of topics to help save time and memory. LDA was used as the third method. In this case, LDA ignored syntactic information and treated documents as bags of words, so the unigram format in the dataset did not matter much.<br><br>    
 				
-				- Artist Similarity: The dataset is offered by Million Song Dataset. We assumed that similar audience would have the same taste in artists. <br><br>
+				Artist Similarity: The dataset is offered by Million Song Dataset. We assumed that similar audience would have the same taste in artists. <br><br>
 				After engineering new features and calculating the cosine similarity between them, we defined two key functions for our recommendation system. One returned the top 10 song with the highest cosine similarity. The other found the top 10 songs based on artist similarity and cosine similarity.<br><br>
 
 				<b>RESULT AND EVALUATION</b><br>
-				<b>1. Collaborative Filtering</b><br><br>
+				<b>1. Collaborative Filtering</b><br>
 				    Here is the benchmark of our top 10 most listened songs. <br>
 				    <img src="img/CL_result.png" class="model-text" alt="Song Projects"><br>
 				The data was split into three parts: 60% as train, 20% as validation, and 20% as test. Grid search and cross-validation on validation set was implemented to determine the best parameters of the recommendation system and only recommend the results to the new users in the test set once to avoid information leakage. The process was implemented from scratch and was locked in a pipeline. This work was constructed to avoid overfitting problems.<br><br>
@@ -421,14 +421,14 @@
 				    <img src="img/CL_result_2.png" class="model-text" alt="Song Projects"><br><br>
 				Except for cross-validation, another common measurement is to compare the model with fake test data where every rating is the average number of frequencies from the train data. While the model excluding the 1-time listened songs returns a slightly higher RMSE score on the test dataset, it behaves better when compared with the average frequency. And this may hint the recommendation makes more sense. The highlighted tracks can be of the highest recommendation quality, as they are the overlap between two ALS recommendation models.<br>
 				<br>
-				<b>2. Content-Based Filtering</b><br><br>
+				<b>2. Content-Based Filtering</b><br>
 				Let's simulate a new user searches for a song to see the recommendation results.<br><br>
 				    <img src="img/CB_simulate.png" class="model-text" alt="Song Projects"><br><br>
 				The results showed: 4 similar songs between TFIDF and Word2vec methods; 2 similar songs between TFIDF and LDA methods; 2 similar songs between Word2vec and LDA methods; 1 similar song among three methods. Therefore, the final recommended song related to the Box Tops’ Soul Deep was Four Tops’ You Keep Running Away.<br><br>
 				    <img src="img/CB_result.png" width="800" height="633" class="model-text" alt="Song Projects"><br><br>
 				<b>BEYOND THE LYRICS: THE CROSSROAD OF MUSIC AND DATA VISUALIZATION</b><br>
 				Always amazed by the power of data visualization, I wanted to bring the hidden trends in the meaning of songs to light. Additional to building music recommendation systems, I utilized Natural Language Processing, WordClouds and seaborn to investigate the popularity of lyrics from 1950s to 2000s as well as the topic in lyrics.<br><br>
-				<br>
+		
 				<b>1. Topic Modeling Visualization</b><br>
 				Regarding the LDA model in lyrics analysis, it is noted that the topic modeling visualization was slightly different from the result in the previous content-based recommendation system as the lyrics were not processed with stemming and the model defined 20 topics instead of 10 topics. The original word form of lyrics were kept for a more comprehensive lyrics topic demonstration. Therefore, the implementation included removing stopwords, generating token dictionary class, and building a corpus. The corpus and dictionary were filetered into the LDA model with 20 topics. <br><br>
 					<img src="img/LDA_lyrics.png" class="model-text" alt="Song Projects"><br>
@@ -440,10 +440,10 @@
 				<br><br>
 				<b>2. Lyrics Analysis Through The Time</b><br>
 				There are certain changes in lyrics from 1950s to 2000s:<br><br>
-				   - "Love" was the most used word in songs from the 1950s to 1990s. The topic of love seemed to be the greatest inspiration for music at the time. In 2000s, "know" became the most used word and followed by "love".<br><br>
-				   - The party vibe was shown more frequently in 1990s and 2000s. Those words such as "got", "na", "like", "oh", "la", "come", "let", "feel","make", and "yeah" became very popular in lyrics.<br><br>
-				   - Though songs of 1950s and 1960s sounded more conservative yet filled with romantic vibe. The popular words were "girl", "time", "night", "make", "say", "day", "want","heart", "man", and "said".<br><br>
-			           - The word "babi" was in the top 3 popular words in 1950s, however, from 1960s to 2000s, it was replaced with either "like" or "got".<br><br>
+				  "Love" was the most used word in songs from the 1950s to 1990s. The topic of love seemed to be the greatest inspiration for music at the time. In 2000s, "know" became the most used word and followed by "love".<br><br>
+				   The party vibe was shown more frequently in 1990s and 2000s. Those words such as "got", "na", "like", "oh", "la", "come", "let", "feel","make", and "yeah" became very popular in lyrics.<br><br>
+				   Though songs of 1950s and 1960s sounded more conservative yet filled with romantic vibe. The popular words were "girl", "time", "night", "make", "say", "day", "want","heart", "man", and "said".<br><br>
+			           The word "babi" was in the top 3 popular words in 1950s, however, from 1960s to 2000s, it was replaced with either "like" or "got".<br><br>
 				Lyrics in 2000s: <br>   
 				   <img src="img/lyrics_2000s.png" class="model-text" alt="Song Projects"><br>
 				Lyrics in 1990s: <br>  
