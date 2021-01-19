@@ -557,6 +557,7 @@
 				<b>APPROACH</b><br><br>
 				 Coming into this competition, I did some research on similar projects and came up with a general idea of what to do. As far as I knew, some projects went with logistic regression as their primary algorithm because of the probabilistic nature and simple implementation, yet effective. With my prior knowledge, I took a similar approach to other models while making a few interesting changes with novel features. <br>
 				 <br>So, what is new about my approach? <br><br>
+				   <img src="img/mm_newfeatures.png" class="model-text" alt="MarchMadness"><br><br>
 				 - Instead of analyzing the stats of each team, I engineered new features by transforming all variables into Difference and Ratio, or Quotient, between two teams in each of 63 games.<br>
 				 - Then I calculated the Winning Rate and Teamwork Score for each team and coach. The level of teamwork can be reflected by the percentage of assist score (80%) and the defensive efficiency (20%). The team can be more stable if they rely on assist and better defense to win the game.<br> 
 				 - To select the most important features, I removed highly correlated variables (Pearson correlation > 0.9) and applied Embedded method with Random Forests. Some advantages of Embedded methods are higher accuracy, better generalization, and being interpretable (based on importance). Also, it works well when dealing with high-dimensional dataset.<br>
