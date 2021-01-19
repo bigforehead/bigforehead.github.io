@@ -357,39 +357,26 @@
                           <hr class="star-primary">
                           <div class="modal-text">
                             <p>
-                       
+                       		
                                 <br><br>
+				 Recommendation Systems are very standard and popular all over the web. Companies like Netflix, Spotify, Apple, Pandora, and LinkedIn leverage the recommender systems to help users find new items quickly, creating a delightsome user experience while driving incremental revenue.
+				<br><br>    
                                 <b>BIG PICTURE</b><br>
                       
-                                This project aimed to build an useful and comprehensive music recommendation system based on the Million Song Dataset and musiXmatch dataset. In details, the two datasets include data of user listening history, song metadata, artist metadata, artist similarity, and lyrics. To build the recommendation systems, three algorithms were employed, including popularity-based, collaborative filtering, and content-based in order to generate three different recommendation lists - Hot Song List, Personal List, and New User List. Those algorithms were compared and combined to establish recommending strategy for different scenarios and users. ALS algorithm was used for a personal recommendation, and lyric-based and artist-based similarity recommendation was employed to solve the cold-start problem. The whole system was built with Python and PySpark on Google Cloud Platform and AWS.<br><br>
-				In this project, we want to focus on the streaming music industry. The potential benefits of a state of art recommendation system are valuable for streaming music industry. Some possible benefits include the improvement of user retention and engagement as well as a comprehensive understanding of customers' taste and the changing trend of their tastes.
-
+                                Discover Playlist is one of the most popular Spotify’s features, and it is generated each week based on user’s listening habits. Inspired by this playlist, I and three other classmates geeked out about recommendation algorithms and decided to create three music recommendation systems for our Big Data capstone project.<br><br>
+				We employed three algorithms (popularity benchmark, ALS, lyric-based and artist-based similarity filtering) to generated three different playlists: Hot Song playlist, Personalized playlist, and New User playlist. ALS algorithm was used for a personalized recommendation. The lyric-based and artist-based similarity algorithm was used to solve the cold-start problem with new users.<br><br>
+				The whole system was built with Python and PySpark on Google Cloud Platform and AWS. 
                                 <br><br>
-				<b>DATASET DESCRIPTION</b><br>
-				The Million Song Dataset was originally started as a collaborative project between The Echo Nest and LabROSA. The dataset contains metadata, or derived features, for one million songs. The size of the entire data scales is up to 280GB. The Million Song Dataset is also a cluster of seven complementary datasets provided by the community. In this project, besides the subset, Taste Profile and musiXmatch are used to build the music recommendation system.<br><br>
-				Regarding the Million Song subset, besides 1,000,000 unique tracks ID data, the song metadata, the links between artist ID and the tags, and artists’ similarity were extracted using the SQLite databases. For artists, the artists’ location data was also used.<br><br>
-				The Taste Profile subset contains user listening history. The dataset scales up to 488MB, including 1,019,318 unique users, 384,546 unique MSD songs, and 48,373,586 user-song-play count triplets.<br><br>
-				The musiXmatch dataset provides official lyrics collection of the Million Song Dataset in the bag-of-words format as well as the full mapping of MSD IDs to musiXmatch IDs. The mapping comes as a text file, including 779 thousand matches. The lyrics are directly associated with Million Song Dataset tracks regarding similar artists, tags, years, and audio features. We extracted the lyrics with the SQLite database. Each track is described as the word-counts for a dictionary of the top 5,000 words across the set. The split of training and testing was done according to the split for tagging, regarding tagging test artists. There are 210,519 training bag-of-words, 27,143 testing ones. The dataset contains track ID, mxm ID, word of lyrics, and frequency of the words features.<br><br>
-				After mapping all the musiXmatch IDs, track ID, and song ID from listening history, the final dataset scaled up to 3GB.
-			
+				<b>ABOUT THE DATA</b><br>
+				The Million Song Dataset, a collaborative project between The Echo Nest and LabROSA, is a freely available collection of audio features and meta data for a million contemporary popular music tracks.<br><br>
+		
+				<a href="http://millionsongdataset.com/tasteprofile/">Taste Profile</a><br><br>
+				<a href="http://millionsongdataset.com/musixmatch/">The musiXmatch dataset</a><br><br>
+				<a href="http://millionsongdataset.com/pages/getting-dataset/#subset ">The Million Song subset</a>
+				
 				<br><br>
-                                <b>BASELINE MODEL</b><br>
+                                <b>APPROACH</b><br>
 				    <img src="img/song_baselinemodel.png" class="model-text" alt="Song Projects">
-				<br>
-				     
-				Data preprocessing is divided into 2 steps: data consolidation between taste profile, one million unique track IDs and MusiXmatch IDs, and table joins. Then information regarding seeds, listening history, track metadata, artists information, artist’s similarity, and lyrics were saved into separate files for further analysis.The data consolidation was divided into two steps: first step is to map song IDs to track IDs, and second step is to map track IDs to musiXmatch ID. The final dataset covered 90% of the songs in the original listening history. Those IDs are saved as seeds, and taste profiles containing user ID, track ID, and frequency as listening seperately. 
-                     
-				
-				<br>
-				Next, metadata of tracks were extracted from SQLite database ("track_metadata.db").
-				
-			
-				<br>
-				For lyrics data, data were extracted from "lyrics.db" SQLite database.
-				
-				
-				<br>
-				For artists similarity data, target artist IDs and similar artist IDs were fetched from "artist_similarity.db" SQLite database. 
 				
                                 <br><br>
 				<b>ALGORITHM DEVELOPMENT</b><br>
