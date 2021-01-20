@@ -268,8 +268,10 @@
                           <hr class="star-primary">
                           <div class="modal-text">
                             <p>
-                                Bots on Twitter are accounts that are controlled by computer programs, automatically producing content, and interacting with other accounts. These programs are turned on and off without following a pattern, making them hard to identify. Some bots only exist for providing some interesting tweets to users daily, but some bots are intentionally spreading disturbing or misleading information, which negatively impacts users’ experiences. Those malicious bots indirectly hurt Twitter’s image and business revenue. Although Twitter has already been able to identify most of the bot accounts, the company could have done better in Malicious Bots Classification. Therefore, this project propose a novel bot type classification method by using TFIDF. With the supervised machine learning method, this study aims to detect malicious Twitter bot types based on bot behaviors and text analysis.
-                                <br><br>
+                                There are bots, or automated accounts, everywhere. This project focuses on Twitter bots. Some of these bots can be fun as they share interesting tweets to users every day. But all too often, a high-volume social media fake accounts exist to deceive or spread disinformation. Those malicious bots indirectly hurt Twitter’s image and business revenue as they gradually deplete the users’ organic exposure to the platform. <br><br>
+			        Excited with the possibility of machine learning and text analytics, I formed a team of four and built a classification model to spot scam bots, spam bots and fake followers.    <br><br>
+			        <i>Available on <a href="https://github.com/bigforehead/">Github</a>.</i><br><br>
+				<br><br>
                                 <b>BIG PICTURE</b><br><br>
                                 During the modeling process, the primary source of input data is bots' IDs from Bot Repository. I use Python to crawl users'information and tweets based on these IDs. <br>
 				The process is divided into two phase. In phase one, I started off with features extraction with Twitter's metadata then tested multiple supervised machine learning models, such as Decision Tree, Random Forest, and Logistic Regression with IBM SPSS Modeler platform to create testing model with 13 significant indicators to predict behaviors of certain malicious bot types. In phase two, to further improve on the result, I created a dictionary for each type of malicious bots and calculated the TFIDF of keywords in the dictionary of each tweet. Then I again applied the most accurate model from phase one with additional TFIDF features. Finally I got a Random Forest that can predicted malicious bots correctly of 91.68% on the testing set.<br>
@@ -323,7 +325,7 @@
 				[3] Lulwah Ahmad AlKulaib. Twitter Bots Multiclass Classification Using Bot-Like Behavior Features. B.S. in Computer Science, Gulf University for Science and Technology, June 2011.<br>
 				[4] Efthimion, Phillip George; Payne, Scott; and Proferes, Nicholas (2018) "Supervised Machine Learning Bot Detection Techniques to Identify Social Twitter Bots," SMU Data Science Review: Vol. 1: No. 2, Article 5. Available at: https://scholar.smu.edu/datasciencereview/vol1/iss2/5.
                                 <br><br>
-                                <i>Available on <a href="https://github.com/bigforehead/">Github</a>.</i><br><br>
+                              
                               <iframe width="100%" height="500px" src="file/twitterbot.pdf#toolbar=0"></iframe><br><br>
                              
 				    
@@ -538,10 +540,13 @@
 				 Coming into this competition, I did some research on similar projects and came up with a general idea of what to do. As far as I knew, some projects went with logistic regression as their primary algorithm because of the probabilistic nature and simple implementation, yet effective. With my prior knowledge, I took a similar approach to other models while making a few interesting changes with novel features. <br>
 				 <br>So, what is new about my approach? <br><br>
 				   <img src="img/mm_newfeatures.png" class="model-text" alt="MarchMadness"><br><br>
-				 - Instead of analyzing the stats of each team, I engineered new features by transforming all variables into Difference and Ratio, or Quotient, between two teams in each of 63 games.<br>
-				 - Then I calculated the Winning Rate and Teamwork Score for each team and coach. The level of teamwork can be reflected by the percentage of assist score (80%) and the defensive efficiency (20%). The team can be more stable if they rely on assist and better defense to win the game.<br> 
-				 - To select the most important features, I removed highly correlated variables (Pearson correlation > 0.9) and applied Embedded method with Random Forests. Some advantages of Embedded methods are higher accuracy, better generalization, and being interpretable (based on importance). Also, it works well when dealing with high-dimensional dataset.<br>
-				 - After hyperparameter tunning Random Forest Classifier with Grid Search, I trained Logistic Regression, Gradient Boosting, Support Vector Classifier, Random Forest Classifier, and Linear Discriminant Analysis (LDA) and selected the best one with lowest log loss.<br>   
+				 Instead of analyzing the stats of each team, I engineered new features by transforming all variables into Difference and Ratio, or Quotient, between two teams in each of 63 games.<br>
+				 <br>
+				 Then I calculated the Winning Rate and Teamwork Score for each team and coach. The level of teamwork can be reflected by the percentage of assist score (80%) and the defensive efficiency (20%). The team can be more stable if they rely on assist and better defense to win the game.<br> 
+				 <br>
+				 To select the most important features, I removed highly correlated variables (Pearson correlation > 0.9) and applied Embedded method with Random Forests. Some advantages of Embedded methods are higher accuracy, better generalization, and being interpretable (based on importance). Also, it works well when dealing with high-dimensional dataset.<br>
+				 <br>
+				 After hyperparameter tunning Random Forest Classifier with Grid Search, I trained Logistic Regression, Gradient Boosting, Support Vector Classifier, Random Forest Classifier, and Linear Discriminant Analysis (LDA) and selected the best one with lowest log loss.<br>   
 				<br><br>
 				<b>MODEL SELECTION</b><br>
 				Random Forest Classifier is selected as the best model due to the most optimal accuracy rate and lowest log loss. That should be enough for the competition. The perfect scenario was having the 2020 data for model application. However, to resolve the problem, I trained the models with 2002 to 2017 data, tested the models with 2018 data and then I applied the model on the 2019 data to generate prediction and probability.<br>
