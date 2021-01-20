@@ -286,7 +286,7 @@
 				<br><br>
 				<img src="img/botgroupdistribution.png" class="model-text" alt="Tweeter Projects">
 				<br><br>
-				<b>PHASE ONE: SPOT A BAD BOT BY BEHAVIOR /b><br>
+				<b>PHASE ONE: SPOT A BAD BOT BY BEHAVIOR </b><br>
 				In phase one, typical features of tweet syntax, temporal behavior and user profile are used to build a model that identifies different types of malicious bots. After testing multiple models, I decided to use Random Forest since it results in the highest accuracy rate. For your information, Random Forest is a classification algorithm consisting of many decision tree. I used IBM SPSS to build an uncorrelated forest of trees to predict the type of malicious bots based on 13 identified fields of account's behaviors. The features include user ID for each twitter account, average number of retweets of tweets for each account, average number of times tweets favorited by twitter users for each account, bot type, bot group, number of followers, number of friends, number of tweets for each account, a binary feature of default profile (yes/no), a binary feature of using default profile image, if geo-location is turned on, average number of tweets posted daily per account, and percentage of tweets containing URL or hyperlink for each account.<br><br>
 				<br>
 				The target of the Random Forest model is bot group, which containing three nominal values of Fake Followers, Scam Bots, and Spam Bots. The data was partitioned into 70% of the training set and 30% of the testing set. The Random Forest test classified malicious bots with a high level of accuracy, 99.43% correctly on training data, and 91.05% on testing data. Since the training set may be overfitting, I focused on the testing set. Regarding the testing set, the model performed best at predicting Spam Bots, with accuracy of 96.226%, following by Fake Followers and Scam Bots, with accuracy of 89.862% and 87.019%, respectively. Overall, the Random Forests can be applied to classify malicious bot types with the features above at a high level of accuracy. <br><br>
@@ -315,7 +315,8 @@
                                 In general, the model of phase two performed slightly better than the model of phase one based on the comparison of accuracy. I can’t tell whether it’s due to the new features or the random error. However, one thing I am sure about is that the TFIDF certainly contributes to analyze the bot types as the model could predict correctly of 81.16% on the testing data when I only used these three features to detect different kinds of malicious bots.<br><br>
                                  <img src="img/tweetcompare12.png" class="model-text" alt="Tweeter Projects">
 				<br><br>
-                                <b>CONCLUSION</b><br>
+				    
+                                <b>WRAPPING UP</b><br>
                                 In this project, we combined supervised machine learning and natural languague processing to classify different types of malicious bots on Twitter.<br><br>
 				This project targets on malicious accounts' tweets as a means to build keyword dictionaries. Despite the improvement of detection tools, bots are also becoming more human-like.<br><br>
 				In phase two, we trained a Random Forest classifier using the features of average TFIDF score of keywords in each type dictionary. we were able to create a multi-class classifier that performs with 91.68% of accuracy when classifying into one of 3 classes.<br><br>
