@@ -272,19 +272,19 @@
 			        Excited with the possibility of machine learning and text analytics, I formed a team of four and built a classification model to spot scam bots, spam bots and fake followers.    <br><br>
 			        <i>Available on <a href="https://github.com/bigforehead/">Github</a>.</i><br><br>
 				<br><br>
-                                <b>BIG PICTURE</b><br><br>
-                                During the modeling process, the primary source of input data is bots' IDs from Bot Repository. I use Python to crawl users'information and tweets based on these IDs. <br>
-				The process is divided into two phase. In phase one, I started off with features extraction with Twitter's metadata then tested multiple supervised machine learning models, such as Decision Tree, Random Forest, and Logistic Regression with IBM SPSS Modeler platform to create testing model with 13 significant indicators to predict behaviors of certain malicious bot types. In phase two, to further improve on the result, I created a dictionary for each type of malicious bots and calculated the TFIDF of keywords in the dictionary of each tweet. Then I again applied the most accurate model from phase one with additional TFIDF features. Finally I got a Random Forest that can predicted malicious bots correctly of 91.68% on the testing set.<br>
-                                
+                                <b>BIG PICTURE</b><br>
+                                Coming into this project, we did some research and decided to divide the process into two phases. Before the implementation, we used Python to scrape account metadata and tweets of Twitter bot IDs. During phase one, we applied supervised machine learning to train Decision Tree, Random Forest, and Logistic Regression with behavioral bot features. In phase two, we engineered new features from tweets using Natural Language Processing and trained the models again. The result was amazing! We built a Random Forest classifier with 91.68% of accuracy (for testing data).<br>
+				    
 				 <img src="img/bot_process.png" class="model-text" alt="Tweeter Projects">
 				 
                                 <br><br>
-                                <b>BASELINE MODEL</b><br><br>
+                                <b>APPROACH</b><br>
+				Here is our pipeline:<br><br>
 				 <img src="img/modelbaseline.png" class="model-text" alt="Tweeter Projects">
 				<br><br>
-                                To start off with the baseline model, I first gained interest of using behavior patterns as prediction targets from multiple research papers. The selection includes three major malicious bots: Fake Follower, Scam Bot, and Spam Bot.<br><br>
-				The raw data set includes 900 IDs for each kind of malicious bots from Bot Repository, reaching 2,700 IDs in total. From 2,700 IDs, I used Twitter API and Tweepy to crawl twitter's metadata and tweets. Since some accounts have been banned and might not have any tweet, I got 2,042 valid account and crawled 250 tweets for each account. In total, there are 138,042 tweets for Fake Followers, 160,245 tweets for Scam Bots, and 161,956 tweets for Spam Bots.<br><br>
-				 <img src="img/botgroupdistribution.png" class="model-text" alt="Tweeter Projects">
+                                The raw dataset included 900 IDs for each kind of malicious bots from Bot Repository, total 2700 IDs. After scraping account metadata and tweets with Twitter API and Tweepy, we visualized number of tweets collected in the following graphic.
+				<br><br>
+				<img src="img/botgroupdistribution.png" class="model-text" alt="Tweeter Projects">
 				<br><br>
 				<b>PHASE ONE - BAD BOT-LIKE BEHAVIOR DETECTION</b><br><br>
 				In phase one, typical features of tweet syntax, temporal behavior and user profile are used to build a model that identifies different types of malicious bots. After testing multiple models, I decided to use Random Forest since it results in the highest accuracy rate. For your information, Random Forest is a classification algorithm consisting of many decision tree. I used IBM SPSS to build an uncorrelated forest of trees to predict the type of malicious bots based on 13 identified fields of account's behaviors. The features include user ID for each twitter account, average number of retweets of tweets for each account, average number of times tweets favorited by twitter users for each account, bot type, bot group, number of followers, number of friends, number of tweets for each account, a binary feature of default profile (yes/no), a binary feature of using default profile image, if geo-location is turned on, average number of tweets posted daily per account, and percentage of tweets containing URL or hyperlink for each account.<br><br>
