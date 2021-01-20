@@ -312,7 +312,7 @@
 				 <br><br>
 	
                                 <b>MODEL EVALUATION</b><br>
-                                In general, the model of phase two performed slightly better than the model of phase one based on the comparison of accuracy. I can’t tell whether it’s due to the new features or the random error. However, one thing I am sure about is that the TFIDF certainly contributes to analyze the bot types as the model could predict correctly of 81.16% on the testing data when I only used these three features to detect different kinds of malicious bots.<br><br>
+                                Overall, the model in phase two performed slightly better than the model in phase one. Obviously, the TF-IDF features certainly contributed to the improvement of the model.<br><br>
                                  <img src="img/tweetcompare12.png" class="model-text" alt="Tweeter Projects">
 				<br><br>
 				    
@@ -321,9 +321,12 @@
 				This project targets on malicious accounts' tweets as a means to build keyword dictionaries. Despite the improvement of detection tools, bots are also becoming more human-like.<br><br>
 				In phase two, we trained a Random Forest classifier using the features of average TFIDF score of keywords in each type dictionary. we were able to create a multi-class classifier that performs with 91.68% of accuracy when classifying into one of 3 classes.<br><br>
 				Overall, fake followers are inactive accounts with the highest TFIDF score for fake accounts. Scam bots are also inactive accounts but they retweet frequently and have the highest TFIDF score. Spam bots are active accounts with the highest TFIDF score. <br><br> 
+				<br>
+			        Thank you for reading! <br><br>
                              
 	
 				 <b> SPOT A BOT THROUGH VISUALIZATION </b><br>
+				If you want to understand how different bots behave on Twitter, check this Viz out! <br><br>
 				 <div class='tableauPlaceholder' id='viz1585549357967' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Tw&#47;TwitterMaliciousBotDetection&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='TwitterMaliciousBotDetection&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Tw&#47;TwitterMaliciousBotDetection&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1585549357967');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1024px';vizElement.style.height='795px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1024px';vizElement.style.height='795px';} else { vizElement.style.width='100%';vizElement.style.height='1477px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
                                 <b>REFERENCES</b><br>
                                 [1] Stefano Cresci et al. The paradigm-shift of social spambots. arXiv:1701.03017v1 [cs.SI] 11 Jan 2017. Available at: https://arxiv.org/abs/1701.03017<br>
