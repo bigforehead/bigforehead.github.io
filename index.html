@@ -292,10 +292,8 @@
 				<br>
 				We partitioned data into 70% of the training set and 30% of the testing set. The Random Forest predicted bots 99.43% correctly on training data, and 91.05% correctly on testing data. The Random Forests Classification indicated that some features matter more than others. Retweet frequency, number of followers and daily tweet frequency were identified as top 3 important features.<br>
 				<br>
-				The Random Forests Classification applied nine predictor inputs to train 1405 records, which is 70% of the dataset. The result indicated that some features matter more than others. Pertaining malicious bot behaviors classification, the model identified the most important predictor as average of retweet count, following by number of followers, average daily tweet, number of tweets, number of friends, percentage of tweets containing URL or hyperlink per account. Using the default profile, the average number of favorites and turning on geo-location do not demonstrate significant results for classification.<br><br>
-				
 				<b>PHASE TWO: SPOT A BAD BOT BY BEHAVIOR AND TWEET SEMANTICS</b><br>
-				In phase two, we used Python package NLTK to get keywords dictionary and frequency of each keyword for 216,173 tweets. We calculated every term frequency for each group of malicious bots. We set the threshold for term frequency rate is 0.05%. We picked every term with that is larger than the threshold to create detection dictionaries for fake followers, scam bots, and spam bots. To calculate fitting degree of each tweet with three dictionaries, We used Python and Excel to calculate they keywords' TFIDF in each tweet and see whether these dictionaries contribute to our prediction. Finally, we normalized TFIDF of each tweet to make sure they are under the same weight then calculated the average normalized TFIDF of each account. Wordclouds were used to check the term frequency, and the results were consistent with the TFIDF calculation.<br><br>
+				We used Natural Language Toolkits to get keyword dictionary and keyword frequency for 216,173 tweets. We calculated every term frequency for each group of malicious bots. With the 0.05% threshold for term frequency rate, terms larger than the threshold were selected to create detection dictionaries for fake followers, scam bots, and spam bots. We used Python and Excel to calculate they keywords' TFIDF in each tweet using three dictionaries. Then we normalized TFIDF of each tweet to make sure they had the same weight and calculated the average normalized TFIDF for each account. We visualized the term frequency with WordClouds to make sure that the results were consistent with the TFIDF calculation.<br><br>
 				<br>
 			        In short, fake followers have the lowest TFIDF score in all three dictionaries and a little better match in fake follower dictionary due to their small number of tweets. Scam bots have high TFIDF in all three dictionaries and especially in the spam dictionary. Spam bots do post tons of tweets, and the result indicates that there are some words in the spam dictionary that have discriminative power to distinct spam bots from other types. We added these three average TFIDF as our new features in our detection model and built a new model to see whether these three new features can contribute to our overall accuracy.<br><br>
 				    <b> Spam bot's Tweets WordCloud </b><br><br>
@@ -313,17 +311,14 @@
 				 <br><br>
 	
                                 <b>MODEL EVALUATION</b><br>
-                                Overall, the model in phase two performed slightly better than the model in phase one. Obviously, the TF-IDF features certainly contributed to the improvement of the model.<br><br>
+                                The model in phase two performed slightly better than the model in phase one. Obviously, the TF-IDF features certainly contributed to the improvement of the model.<br><br>
                                  <img src="img/tweetcompare12.png" class="model-text" alt="Tweeter Projects">
 				<br><br>
 				    
                                 <b>WRAPPING UP</b><br>
-                                In this project, we combined supervised machine learning and natural languague processing to classify different types of malicious bots on Twitter.<br><br>
-				This project targets on malicious accounts' tweets as a means to build keyword dictionaries. Despite the improvement of detection tools, bots are also becoming more human-like.<br><br>
-				In phase two, we trained a Random Forest classifier using the features of average TFIDF score of keywords in each type dictionary. we were able to create a multi-class classifier that performs with 91.68% of accuracy when classifying into one of 3 classes.<br><br>
+                                You made it here !!! To snapshot the process, we combined supervised machine learning and natural languague processing to detect malicious bots on Twitter.<br><br>
 				Overall, fake followers are inactive accounts with the highest TFIDF score for fake accounts. Scam bots are also inactive accounts but they retweet frequently and have the highest TFIDF score. Spam bots are active accounts with the highest TFIDF score. <br><br> 
-				<br>
-			        Thank you for reading! <br><br>
+			        Thanks for reading! <br><br>
                              
 	
 				 <b> SPOT A BOT THROUGH VISUALIZATION </b><br>
